@@ -31,7 +31,7 @@ class Controller {
 }
 const modal = new GameModal();
 const uiConfig = {
-  canvasBgColor: "0x000000",
+  canvasBgColor: "0xffffff",
   fontFamily: "Roboto, 'Microsoft JhengHei'",
   gridColWidth: 75,
   gridColHeight: 150,
@@ -64,7 +64,7 @@ window.onload = function () {
       width: 1200,
       height: 900
     },
-    scene: [SceneLoad]
+    scene: [SceneLoad, SceneStart]
   };
 
   game = new Phaser.Game(config);
@@ -131,29 +131,31 @@ class SceneLoad extends Phaser.Scene {
     emitter = new Phaser.Events.EventEmitter();
     // create emitter controler
     controller = new Controller();
+    this.bgMiddle = this.add.tileSprite(
+      game.config.width / 2,
+      game.config.height / 2,
+      game.config.width,
+      game.config.height,
+      "bgMiddle"
+    );
     this.title = this.add.text(
       game.config.width / 2,
-      game.config.height / 2 - 250,
-      "90sec Game", {
+      game.config.height / 2 - 150,
+      "Dock Canvas Game", {
         color: "#FDD23F",
-        stroke: "#F49C24",
-        strokeThickness: 6,
+        stroke: "#FDD23F",
+        strokeThickness: 5,
         fontFamily: uiConfig.fontFamily,
-        fontSize: 72,
-        shadow: {
-          color: "#9A7B5D",
-          blur: 2,
-          fill: true,
-          offsetY: 5
-        }
+        fontSize: 64
       }
     );
     this.title.setOrigin(0.5);
     this.duck = this.add.sprite(
       game.config.width / 2,
-      game.config.height / 2 - 110,
+      game.config.height / 2 + 50,
       "duckSprite"
     );
+    
     this.anims.create({
       key: "walk",
       frames: [{
@@ -178,7 +180,7 @@ class SceneLoad extends Phaser.Scene {
       key: "btnStart",
       text: "開始遊戲",
       x: game.config.width / 2,
-      y: game.config.height / 2 + 100,
+      y: game.config.height / 2 + 200,
       event: "startGame"
     });
     emitter.on("startGame", this.startGame, this);
